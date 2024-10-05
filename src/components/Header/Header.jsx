@@ -2,7 +2,7 @@ import React from 'react'
 
 import styles from '../../styles/Header.module.css'
 
-import {ROUTERS} from'../../utils/routes.js'
+import {ROUTES} from'../../utils/routes.js'
 
 import { Link } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.logo}>
-        <Link to={ROUTERS.HOME}>
+        <Link to={ROUTES.HOME}>
           <img src={logo} alt="Stuff" />
         </Link>
       </div>
@@ -40,13 +40,13 @@ const Header = () => {
         </form>
 
         <div className={styles.account}>
-          <Link to={ROUTERS.HOME} className={styles.favorites}>
+          <Link to={ROUTES.HOME} className={styles.favorites}>
             <svg className={styles['icon-fav']}>
               <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#heart`}></use>
             </svg>
           </Link>
 
-          <Link to={ROUTERS.CART} className={styles.cart}>
+          <Link to={ROUTES.CART} className={styles.cart}>
             <svg className={styles['icon-cart']}>
               <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#bag`}></use>
             </svg>

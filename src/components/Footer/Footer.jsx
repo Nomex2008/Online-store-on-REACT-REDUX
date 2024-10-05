@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from '../../styles/Footer.module.css'
 
-import {ROUTERS} from'../../utils/routes.js'
+import {ROUTES} from'../../utils/routes.js'
 
 import { Link } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ const Footer = () => {
     <div>
       <section className={styles.footer}>
         <div className={styles.logo}>
-          <Link to={ROUTERS.HOME}>
+          <Link to={ROUTES.HOME}>
             <img src={logo} alt="Stuff" />
           </Link>
         </div>
