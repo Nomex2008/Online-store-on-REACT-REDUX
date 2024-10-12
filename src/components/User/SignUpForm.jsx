@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { createUser } from '../../features/user/userSlice';
 
 import styles from '../../styles/User.module.css'
 
 const SignUpForm = ({ closeForm }) => {
+    const dispatch = useDispatch();
+
     const [values, setValues] = useState({
         name: '',
         email: '',
@@ -12,6 +16,17 @@ const SignUpForm = ({ closeForm }) => {
 
     const handleChange = ({target: { value, name }}) => {
         setValues({ ...values, [name]: value })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        const isEmpty = Object.values(values).every(val => val)
+
+        if(isEmpty) return
+
+        dispatch(createUser(values))
+        closeForm()
     }
 
   return (
@@ -24,7 +39,7 @@ const SignUpForm = ({ closeForm }) => {
         
         <div className={styles.title}>Sign Up</div>
 
-        <form className={styles.form}>
+        <form className={styles.form} unSubmit={handleSubmit}>
             <div className={styles.group}>
                 <input
                 type="email" 
@@ -32,7 +47,7 @@ const SignUpForm = ({ closeForm }) => {
                 name='email'
                 value={values.email}
                 autoComplete='off'
-                onChange={() => {handleChange()}}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -44,7 +59,7 @@ const SignUpForm = ({ closeForm }) => {
                 name='name'
                 value={values.name}
                 autoComplete='off'
-                onChange={() => {handleChange()}}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -56,7 +71,7 @@ const SignUpForm = ({ closeForm }) => {
                 name='password'
                 value={values.password}
                 autoComplete='off'
-                onChange={() => {handleChange()}}
+                onChange={handleChange}
                 required
                 />
             </div>
@@ -68,7 +83,7 @@ const SignUpForm = ({ closeForm }) => {
                 name='avatar'
                 value={values.avatar}
                 autoComplete='off'
-                onChange={() => {handleChange()}}
+                onChange={handleChange}
                 required
                 />
             </div>
