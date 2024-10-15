@@ -6,15 +6,21 @@ import Categories from '../Categories/Categories'
 import Poster from '../Poster/Poster'
 import Products from '../Products/Products'
 
+const selectProducts = (state) => state.products;
+const selectCategories = (state) => state.categories;
+
+
 export const Home = () => {
   const dispatch = useDispatch();
-  const { products: { list, filtered}, categories } = useSelector((state) => state)
+  
+  const { list, filtered } = useSelector(selectProducts);
+  const categories = useSelector(selectCategories);
 
   useEffect(() => {
     if (!list.length) return;
 
     dispatch(filterByPrice(100));
-  }, [dispatch, list.length])
+  }, [dispatch, list.length]);
 
   return (
     <>
@@ -24,5 +30,6 @@ export const Home = () => {
       <Banner/>
       <Products products={filtered} amount={5} title="Less then 100$"/>
     </>
-  )
+  );
 }
+
