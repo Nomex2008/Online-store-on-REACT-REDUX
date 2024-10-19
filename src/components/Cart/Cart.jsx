@@ -63,7 +63,7 @@ import { sumBy } from '../../utils/common';
                 TOTAL PRICE { '' }
 
                 <span>
-                    {sumBy(cart.map((quantity, price) => quantity * price))}$
+                    {sumBy(cart.map(({ quantity, price }) => quantity * price))}$
                 </span>
             </div>
 
