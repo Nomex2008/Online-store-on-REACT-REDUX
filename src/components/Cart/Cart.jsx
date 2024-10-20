@@ -1,11 +1,25 @@
  import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
- import styles from "../../styles/Cart.module.css";
+import {
+    addItemToCart,
+    removeItemFromCart,
+  } from "../../features/user/userSlice";
+
+import styles from "../../styles/Cart.module.css";
 import { sumBy } from '../../utils/common';
  
  const Cart = () => {
+    const dispatch = useDispatch()
     const { cart } = useSelector(({ user }) => user);
+
+    const changeQuantity = (item, quantity) => {
+        dispatch(addItemToCart({...item, quantity}))
+    }
+
+    const removeItem = (id) => {
+        dispatch(removeItemFromCart(id))
+    }
 
    return (
      <section className={styles.cart}>
@@ -31,7 +45,7 @@ import { sumBy } from '../../utils/common';
                             <div className={styles.price}>{price}$</div>
 
                             <div className={styles.quantity}>
-                                <div className={styles.minus}>
+                                <div className={styles.minus} onClick={() => changeQuantity(item, Math.max(1, quantity - 1))}>
                                     <svg className='icon'>
                                         <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#minus`}/>
                                     </svg>
@@ -39,7 +53,7 @@ import { sumBy } from '../../utils/common';
 
                                 <span>{quantity}</span>
 
-                                <div className={styles.plus}>
+                                <div className={styles.plus}  onClick={() => changeQuantity(item, Math.max(1, quantity + 1))}>
                                     <svg className='icon'>
                                         <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#plus`}/>
                                     </svg>
@@ -48,7 +62,7 @@ import { sumBy } from '../../utils/common';
 
                             <div className={styles.total}>{price * quantity}$</div>
 
-                            <div className={styles.close}>
+                            <div className={styles.close} onClick={() => removeItem(item.id)}>
                                 <svg className='icon'>
                                     <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#close`}/>
                                 </svg>
