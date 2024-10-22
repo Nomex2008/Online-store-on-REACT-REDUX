@@ -3,7 +3,7 @@ import axios from "axios";
 import { BASE_URL } from "../../utils/constants";
 
 export const createUser = createAsyncThunk(
-  "users/getUsers",
+  "users/createUser",
   async (payload, thunkAPI) => {
     try {
       const res = await axios.post(`${BASE_URL}/users`, payload);
@@ -57,47 +57,42 @@ const userSlice = createSlice({
     currentUser: null,
     cart: [],
     isLoading: false,
-    formType: 'signup',
+    formType: "signup",
     showForm: false,
   },
   reducers: {
-        addItemToCart: (state, {payload}) => {
-            let newCart = [...state.cart];
-            const found = state.cart.find(({ id }) => id === payload.id)
+    addItemToCart: (state, { payload }) => {
+      let newCart = [...state.cart];
+      const found = state.cart.find(({ id }) => id === payload.id);
 
-            if (found) {
-                newCart = newCart.map((item) => {
-                    return item.id === payload.id  
-                    ? {...item, quantity: payload.quantity || item.quantity + 1} 
-                    : item;
-                })
-            } else newCart.push({...payload, quantity: 1})
+      if (found) {
+        newCart = newCart.map((item) => {
+          return item.id === payload.id
+            ? { ...item, quantity: payload.quantity || item.quantity + 1 }
+            : item;
+        });
+      } else newCart.push({ ...payload, quantity: 1 });
 
-            state.cart = newCart; 
-        },
-        removeItemFromCart: (state, {payload}) => {
-          state.cart = state.cart.filter(({id}) => id !== payload);
-        },
-        toggleForm: (state, {payload}) => {
-          state.showForm = payload;
-        },
-        toggleFormType: (state, {payload}) => {
-          state.formType = payload;
-        },
+      state.cart = newCart;
     },
-  extraReducers: (builder) => {/*
-    builder.addCase(getCategories.pending, (state) => {
-      state.isLoading = true;
-    });*/
+    removeItemFromCart: (state, { payload }) => {
+      state.cart = state.cart.filter(({ id }) => id !== payload);
+    },
+    toggleForm: (state, { payload }) => {
+      state.showForm = payload;
+    },
+    toggleFormType: (state, { payload }) => {
+      state.formType = payload;
+    },
+  },
+  extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, addCurrentUser);
-    builder.addCase(loginUser.fulfilled, addCurrentUser)
-    builder.addCase(updateUser.fulfilled, addCurrentUser);/*
-    builder.addCase(getCategories.rejected, (state) => {
-      state.isLoading = false;
-    });
-*/},
+    builder.addCase(loginUser.fulfilled, addCurrentUser);
+    builder.addCase(updateUser.fulfilled, addCurrentUser);
+  },
 });
 
-export const { addItemToCart, toggleForm, toggleFormType, removeItemFromCart } = userSlice.actions;
+export const { addItemToCart, removeItemFromCart, toggleForm, toggleFormType } =
+  userSlice.actions;
 
 export default userSlice.reducer;
